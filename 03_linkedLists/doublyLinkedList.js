@@ -1,7 +1,7 @@
 class Node {
   constructor(value) {
     this.value = value,
-    this.previous = null,
+    this.prev = null,
     this.next = null
   }
 }
@@ -15,7 +15,7 @@ class DoublyLinkedList {
 
     append(value) {
         const newNode = new Node(value);
-        newNode.previous = this.tail;
+        newNode.prev = this.tail;
         this.tail.next = newNode;
         this.tail = newNode;
         this.length++;
@@ -25,7 +25,7 @@ class DoublyLinkedList {
     prepend(value) {
         const newNode = new Node(value);
         newNode.next = this.head;
-        this.head.previous = newNode;
+        this.head.prev = newNode;
         this.head = newNode;
         this.length++;
         return this
@@ -38,10 +38,12 @@ class DoublyLinkedList {
         if(index <= 0) {
             return this.prepend(value);
         }
-        const leader = this.traverseToIndex(index - 1);
         const newNode = new Node(value);
-        newNode.next = leader.next;
-        newNode.previous = leader;
+        const leader = this.traverseToIndex(index - 1);
+        const follower = leader.next;
+        follower.prev = newNode;
+        newNode.next = follower;
+        newNode.prev = leader;
         leader.next = newNode;
         this.length++;
     }
@@ -50,7 +52,7 @@ class DoublyLinkedList {
         const leader = this.traverseToIndex(index - 1);
         const removedNode = leader.next;
         leader.next = removedNode.next;
-        removedNode.next.previous = leader;
+        removedNode.next.prev = leader;
         this.length--;
     }
 

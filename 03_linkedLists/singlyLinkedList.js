@@ -88,6 +88,71 @@ class SinglyLinkedList {
         }
         return currentNode;
     }
+
+    reverse() {
+        if (this.length === 1) {
+            return this;
+        }
+
+        let reversedList = null;
+
+        // 1-->10-->99-->5-->16
+        let current = this.head;
+        // Iteration 1
+        // -----------
+        // reversedList = null
+        // current = 1-->10-->99-->5-->16
+        // next = 10-->99-->5-->16
+        // current.next = null
+        // reversedList = 1-->null
+        // current = 10-->99-->5-->16
+
+        // Iteration 2
+        // -----------
+        // reversedList = 1-->null
+        // current = 10-->99-->5-->16
+        // next = 99-->5-->16
+        // current.next = 1-->null
+        // reversedList = 10-->1-->null
+        // current = 99-->5-->16
+
+        // Iteration 3
+        // -----------
+        // reversedList = 10-->1-->null
+        // current = 99-->5-->16
+        // next = 5-->16
+        // current.next = 10-->1-->null
+        // reversedList = 99-->10-->1-->null
+        // current = 5-->16
+
+        // Iteration 4
+        // -----------
+        // reversedList = 99-->10-->1-->null
+        // current = 5-->16
+        // next = 16
+        // current.next = 99-->10-->1-->null
+        // reversedList = 5-->99-->10-->1-->null
+        // current = 16
+
+        // Iteration 5
+        // -----------
+        // reversedList = 5-->99-->10-->1-->null
+        // current = 16
+        // next = null
+        // current.next = 5-->99-->10-->1-->null
+        // reversedList = 16-->5-->99-->10-->1-->null
+        // current = null
+
+        while (current) {
+            const next = current.next;
+            current.next = reversedList;
+            reversedList = current;
+            console.log(reversedList);
+            current = next;
+        }
+
+        this.head = reversedList;
+    }
 }
 
 
@@ -96,5 +161,7 @@ myLinkedList.append(5);
 myLinkedList.append(16);
 myLinkedList.prepend(1);
 myLinkedList.insert(2, 99);
-myLinkedList.remove(3);
+//myLinkedList.remove(3);
+console.log(myLinkedList.printList());
+myLinkedList.reverse();
 console.log(myLinkedList.printList());
